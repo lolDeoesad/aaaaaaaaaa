@@ -19,20 +19,9 @@ public class UserService {
 	private PasswordEncoder passwordEncoder;
 	
 	
-	public void signup(User user) {
+	public void insertUser(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword())); // 비밀번호 암호화
 		user.setRole(RoleType.USER);
-		
-		userRepository.save(user);
-		
-	}
-	
-	
-	
+		userRepository.save(user);	
+	}	
 }
-
-
-
-
-
-
