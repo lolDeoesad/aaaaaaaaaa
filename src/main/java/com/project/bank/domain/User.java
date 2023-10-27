@@ -13,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -25,7 +24,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class User {
 
 	@Id
@@ -35,7 +33,7 @@ public class User {
 	@Column(nullable = false, length = 20, unique = true)
 	private String username; // 아이디
 	
-	@Column(nullable = false)
+	@Column(nullable = false, length = 20)
 	private String password; // 비밀번호
 	
 	@Column(nullable = false, length = 20)
@@ -67,5 +65,4 @@ public class User {
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@OrderBy("id desc")
 	private List<Account> accountList; // 계좌 목록
-	
 }
