@@ -18,9 +18,7 @@ public class UserController {
 	
 	@PostMapping("/user")
 	public ResponseEntity<?> insertUser(@RequestBody User user) {
-		
 		userService.insertUser(user);
-		
-	return new ResponseEntity<>("회원가입 완료", HttpStatus.OK);
+		return new ResponseEntity<>("회원가입 완료", HttpStatus.OK);
 	}
 }
