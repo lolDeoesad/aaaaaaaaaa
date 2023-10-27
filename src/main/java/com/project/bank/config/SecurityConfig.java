@@ -35,8 +35,9 @@ public class SecurityConfig {
 		
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.authorizeRequests()
-			.antMatchers(HttpMethod.GET, "/", "/user", "/qna/**").permitAll()
+			.antMatchers(HttpMethod.GET, "/", "/user", "/qna/**", "/account/**").permitAll()
 			.antMatchers(HttpMethod.POST, "/user", "/account/**").permitAll()
+			.antMatchers(HttpMethod.DELETE, "/account/**").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.exceptionHandling()
