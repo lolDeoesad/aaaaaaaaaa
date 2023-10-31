@@ -27,7 +27,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class User {
 
 	@Id
@@ -62,13 +61,27 @@ public class User {
 	private String address; // 집주소
 	
 	@Column(length = 100)
-	private String job; // 직장정보
+	private String addressDetail; // 집상세주소
 	
+	@Column(length = 100)
+	private String jobName; // 직장명
+	
+	@Column(length = 100)
+	private String teamName; // 팀명
+
+	@Column(length = 100)
+	private String jobAddress; // 직장주소
+	
+	@Column(length = 100)
+	private String jobAddressDetail; // 직장상세주소
+
+	@Column(length = 100)
+	private String jobPhone; // 직장연락처
+
 	private String agree; // 내정보동의보기, 정보동의여부
 	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@OrderBy("id desc")
-	private List<Account> accountList; // 계좌 목록
-	
+	private List<Account> accountList; // 계좌 목록	
 }
