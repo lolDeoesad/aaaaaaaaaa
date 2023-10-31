@@ -10,8 +10,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +25,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Transaction {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int id;
@@ -31,16 +35,18 @@ public class Transaction {
 	
 	@CreationTimestamp
 	private Timestamp time;
+
+	@Transient
+	private Account depositor, withdrawal;
 	
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "depositor")
-	private Account depositor;
+	@JoinColumn(name = "accountId")
+	private Account account;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "withdrawal")
-	private Account withdrawal;
+	@Column(length = 100)
+	private String type;
 	
 	@Column(length = 100)
 	private String memo;
-	
 }

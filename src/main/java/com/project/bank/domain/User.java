@@ -83,5 +83,5 @@ public class User {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@OrderBy("id desc")
-	private List<Account> accountList; // 계좌 목록	
+	private List<Account> accountList; // 계좌 목록
 }
