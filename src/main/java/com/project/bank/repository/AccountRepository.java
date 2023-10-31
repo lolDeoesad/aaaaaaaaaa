@@ -9,7 +9,5 @@ import com.project.bank.domain.Account;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer>{
-
 	public List<Account> findAllByOrderByIdDesc();
-
 }

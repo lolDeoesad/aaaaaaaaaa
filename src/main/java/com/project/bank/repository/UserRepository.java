@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.project.bank.domain.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, String>{
+public interface UserRepository extends JpaRepository<User, Integer>{
 	Optional<User> findByUsername(String username);
 }
