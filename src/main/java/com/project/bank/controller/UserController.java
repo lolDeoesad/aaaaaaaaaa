@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.bank.domain.User;
@@ -19,6 +20,14 @@ public class UserController {
 	
 	@Autowired
 	private	UserService userService;
+	
+	@GetMapping("/user") // 요청 주소랑 함수명 모두 isUser로 바꾸면 좋겠음, service도... 
+	public ResponseEntity<?> checkUser(@RequestParam String username) {
+		System.out.println(username); // 클라이언트에서 요청받은 아이디랑 데이터 베이스 안에 아이디랑 비교할거임
+		if(userService.checkUser(username) == true)
+			return new ResponseEntity<>("이미 존재하는 아이디입니다", HttpStatus.OK);
+		return new ResponseEntity<>("사용 가능한 아이디입니다", HttpStatus.OK);
+	}
 	
 	@PostMapping("/user")
 	public ResponseEntity<?> insertUser(@RequestBody User user) {
