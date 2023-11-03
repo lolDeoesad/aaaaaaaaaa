@@ -1,5 +1,8 @@
 package com.project.bank.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +33,7 @@ public class UserService {
 	
 	public void insertUser(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		user.setRole(RoleType.USER);
+		user.setRole(RoleType.NOTUSER);
 		userRepository.save(user);	
 	}
 	
@@ -67,4 +70,26 @@ public class UserService {
 	public boolean checkUser(String username) {			
 		return userRepository.existsByUsername(username);
 	}
+	
+	public List<User> notUserList() {
+		return userRepository.findByRole();
+	}
+	
+	public void changeRole(List<User> notUserInfo) {	
+		for(User i : notUserInfo) {
+			i.setRole(RoleType.USER);
+			userRepository.save(i);
+		}
+		
+	
+	}
+	
+	
+	
+	
 }
+
+
+
+
+
