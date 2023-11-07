@@ -1,7 +1,6 @@
 package com.project.bank.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -33,7 +32,7 @@ public class UserService {
 	
 	public void insertUser(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		user.setRole(RoleType.NOTUSER);
+		user.setRole(RoleType.WEBUSER);
 		userRepository.save(user);	
 	}
 	
@@ -45,7 +44,7 @@ public class UserService {
 		// user.setUsername(loginUser.getUsername());
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		user.setRole(RoleType.USER);
+		user.setRole(RoleType.WEBUSER);
 		userRepository.save(user);
 	}
 	
@@ -75,21 +74,17 @@ public class UserService {
 		return userRepository.findByRole();
 	}
 	
-	public void changeRole(List<User> notUserInfo) {	
-		for(User i : notUserInfo) {
-			i.setRole(RoleType.USER);
-			userRepository.save(i);
+	public void updateWebUserRole(List<User> webUsers) {	
+		for(User user : webUsers) {
+			user.setRole(RoleType.WEBUSER);
+			userRepository.save(user);
 		}
-		
-	
 	}
 	
-	
-	
-	
+	public RoleType getLoginUserRole(Authentication authentication) {
+		return getUser(authentication.getName()).getRole();
+	}
+	public boolean hasRole(RoleType role, Authentication authentication) {
+		return getUser(authentication.getName()).getRole().equals(role);
+	}
 }
-
-
-
-
-

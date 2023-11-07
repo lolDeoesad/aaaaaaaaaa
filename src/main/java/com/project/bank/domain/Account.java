@@ -1,5 +1,6 @@
 package com.project.bank.domain;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -36,6 +39,9 @@ public class Account {
 	private User user;
 	
 	private int balance;
+	
+	@CreationTimestamp
+	private Timestamp time; // 계좌 생성일
 	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "account", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)

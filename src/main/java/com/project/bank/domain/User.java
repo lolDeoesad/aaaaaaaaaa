@@ -1,5 +1,6 @@
 package com.project.bank.domain;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -79,6 +82,12 @@ public class User {
 	private String jobPhone; // 직장연락처
 
 	private String agree; // 내정보동의보기, 정보동의여부
+	
+	@CreationTimestamp
+	private Timestamp time; // 가입일
+	
+	@CreationTimestamp
+	private Timestamp lastLoginTime; // 최종로그인
 	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)

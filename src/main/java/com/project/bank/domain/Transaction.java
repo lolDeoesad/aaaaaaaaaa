@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,23 +31,23 @@ public class Transaction {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int id;
+
+	@JsonBackReference
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "accountId")
+	private Account account;
 	
 	@Column(nullable = false, length = 20)
 	private int money;
 	
 	@CreationTimestamp
 	private Timestamp time;
+	
+	@Enumerated(EnumType.STRING)
+	private TransferType type; // DEPOSIT, WITHDRAW
 
 	@Transient
 	private Account depositor, withdrawal;
-	
-	@JsonBackReference
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "accountId")
-	private Account account;
-	
-	@Column(length = 100)
-	private String type;
 	
 	@Column(length = 100)
 	private String memo;

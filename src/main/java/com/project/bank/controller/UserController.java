@@ -1,6 +1,5 @@
 package com.project.bank.controller;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,23 +8,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.bank.domain.RoleType;
 import com.project.bank.domain.User;
-import com.project.bank.repository.UserRepository;
 import com.project.bank.service.UserService;
-
-import net.bytebuddy.asm.Advice.This;
 
 @RestController
 public class UserController {
-	
 	
 	@Autowired
 	private	UserService userService;
@@ -72,25 +65,14 @@ public class UserController {
 	}
 	
 	@GetMapping("/approval")
-	public ResponseEntity<?> notUserList() {
+	public ResponseEntity<?> getWebUserList() {
 		List<User> notUserList = userService.notUserList();
 		return new ResponseEntity<>(notUserList, HttpStatus.OK);
 	}
 	
 	@PostMapping("/approval")
-	public ResponseEntity<?> changeRole(@RequestBody List<User> notUserInfo) {
-			
-		userService.changeRole(notUserInfo); 	
+	public ResponseEntity<?> updateWebUserRole(@RequestBody List<User> webUsers) {
+		userService.updateWebUserRole(webUsers); // front 이름 바꿔야 할 걸 아마...?
 		return new ResponseEntity<>("권한변경 완료", HttpStatus.OK);
-	}
-	
-	
-	
-	
-	
+	}	
 }
-
-
-
-
-
