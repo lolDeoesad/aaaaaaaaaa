@@ -1,22 +1,31 @@
 package com.project.bank.controller;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.bank.domain.RoleType;
 import com.project.bank.domain.User;
+import com.project.bank.repository.UserRepository;
 import com.project.bank.service.UserService;
+
+import net.bytebuddy.asm.Advice.This;
 
 @RestController
 public class UserController {
+	
 	
 	@Autowired
 	private	UserService userService;
@@ -61,4 +70,27 @@ public class UserController {
 	public ResponseEntity<?> userInfo(Authentication authentication) {
 		return new ResponseEntity<>(getUser(authentication), HttpStatus.OK);
 	}
+	
+	@GetMapping("/approval")
+	public ResponseEntity<?> notUserList() {
+		List<User> notUserList = userService.notUserList();
+		return new ResponseEntity<>(notUserList, HttpStatus.OK);
+	}
+	
+	@PostMapping("/approval")
+	public ResponseEntity<?> changeRole(@RequestBody List<User> notUserInfo) {
+			
+		userService.changeRole(notUserInfo); 	
+		return new ResponseEntity<>("권한변경 완료", HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
 }
+
+
+
+
+
