@@ -1,5 +1,7 @@
 package com.project.bank.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +30,13 @@ public class UserService {
 	
 	@Autowired
 	private JwtService jwtService;
+	
 	@Autowired
 	private AuthenticationManager authenticationManager;
+
+	public User getUser(String username) {
+		return userRepository.findByUsername(username).get();
+	}
 	
 	public void insertUser(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -62,11 +70,8 @@ public class UserService {
 						.build();
 	}
 	
-	public User getUser(String username) {
-		return userRepository.findByUsername(username).get();
-	}
 	
-	public boolean checkUser(String username) {			
+	public boolean hasUser(String username) {			
 		return userRepository.existsByUsername(username);
 	}
 	

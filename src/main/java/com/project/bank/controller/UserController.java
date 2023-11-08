@@ -23,10 +23,19 @@ public class UserController {
 	@Autowired
 	private	UserService userService;
 	
-	@GetMapping("/user") // 요청 주소랑 함수명 모두 isUser로 바꾸면 좋겠음, service도... 
-	public ResponseEntity<?> checkUser(@RequestParam String username) {
-		System.out.println(username); // 클라이언트에서 요청받은 아이디랑 데이터 베이스 안에 아이디랑 비교할거임
-		if(userService.checkUser(username) == true)
+	public User getUser(Authentication authentication) {
+		String username = authentication.getName();
+		return userService.getUser(username);
+	}
+	
+	@GetMapping("/user")
+	public ResponseEntity<?> userInfo(Authentication authentication) {
+		return new ResponseEntity<>(getUser(authentication), HttpStatus.OK);
+	}
+
+	@GetMapping("/hasUser") 
+	public ResponseEntity<?> hasUser(@RequestParam String username) {
+		if(userService.hasUser(username))
 			return new ResponseEntity<>("이미 존재하는 아이디입니다", HttpStatus.OK);
 		return new ResponseEntity<>("사용 가능한 아이디입니다", HttpStatus.OK);
 	}
@@ -37,10 +46,7 @@ public class UserController {
 		return new ResponseEntity<>("회원가입 완료", HttpStatus.OK);
 	}
 	
-	public User getUser(Authentication authentication) {
-		String username = authentication.getName();
-		return userService.getUser(username);
-	}
+
 	
 	@PutMapping("/user")
 	public ResponseEntity<?> updateUser(@RequestBody User user, Authentication authentication) {
@@ -59,10 +65,6 @@ public class UserController {
 		return userService.getResponseEntity(user.getUsername(), user.getPassword());
 	}
 	
-	@GetMapping("/userInfo")
-	public ResponseEntity<?> userInfo(Authentication authentication) {
-		return new ResponseEntity<>(getUser(authentication), HttpStatus.OK);
-	}
 	
 	@GetMapping("/approval")
 	public ResponseEntity<?> getWebUserList() {
