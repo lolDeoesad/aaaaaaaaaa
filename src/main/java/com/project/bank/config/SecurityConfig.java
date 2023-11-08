@@ -36,11 +36,16 @@ public class SecurityConfig {
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.authorizeRequests()
 
-			.antMatchers(HttpMethod.GET, 	"/", "/user", "/qna").permitAll()
+			.antMatchers(HttpMethod.GET, 	"/", "/hasUser", "/qna").permitAll()
 			.antMatchers(HttpMethod.POST, 	"/user", "/login").permitAll()
 
-			.antMatchers(HttpMethod.GET, 	"/qna/*").hasRole("ADMIN")
-			.antMatchers(HttpMethod.POST, 	"/qna").hasRole("ADMIN")
+			.antMatchers(HttpMethod.GET, 	"/user").authenticated()
+			.antMatchers(HttpMethod.PUT, 	"/user").authenticated()
+			.antMatchers(HttpMethod.DELETE, "/user").authenticated()
+
+			.antMatchers(HttpMethod.GET, 	"/qna/*", "/approval").hasRole("ADMIN")
+			.antMatchers(HttpMethod.POST, 	"/qna", "/approval").hasRole("ADMIN")
+
 			.antMatchers(HttpMethod.PUT, 	"/qna/*").hasRole("ADMIN")
 			.antMatchers(HttpMethod.DELETE, "/qna/*").hasRole("ADMIN")
 

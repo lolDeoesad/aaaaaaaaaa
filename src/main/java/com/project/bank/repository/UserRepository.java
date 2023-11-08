@@ -14,8 +14,6 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 	Optional<User> findByUsername(String username);
 	boolean existsByUsername(String username);
 	
-	@Query(value = "SELECT * FROM users u WHERE u.role = 'NOTUSER'", nativeQuery = true)
-	List<User> findByRole();	
-	
-
+	@Query(value = "SELECT * FROM users u WHERE u.role = 'WEBUSER'", nativeQuery = true)
+	List<User> findByRole();
 }

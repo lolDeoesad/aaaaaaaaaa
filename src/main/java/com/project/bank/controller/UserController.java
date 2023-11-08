@@ -23,17 +23,17 @@ public class UserController {
 	@Autowired
 	private	UserService userService;
 	
-	public User getUser(Authentication authentication) {
+	public User getAuthUser(Authentication authentication) {
 		String username = authentication.getName();
 		return userService.getUser(username);
 	}
 	
 	@GetMapping("/user")
-	public ResponseEntity<?> userInfo(Authentication authentication) {
-		return new ResponseEntity<>(getUser(authentication), HttpStatus.OK);
+	public ResponseEntity<?> get(Authentication authentication) {
+		return new ResponseEntity<>(getAuthUser(authentication), HttpStatus.OK);
 	}
 
-	@GetMapping("/hasUser") 
+	@GetMapping("/hasUser")
 	public ResponseEntity<?> hasUser(@RequestParam String username) {
 		if(userService.hasUser(username))
 			return new ResponseEntity<>("이미 존재하는 아이디입니다", HttpStatus.OK);
@@ -42,21 +42,25 @@ public class UserController {
 	
 	@PostMapping("/user")
 	public ResponseEntity<?> insertUser(@RequestBody User user) {
-		userService.insertUser(user);
+		if(userService.insertUser(user) == null)
+			return new ResponseEntity<>("회원가입 실패", HttpStatus.BAD_REQUEST);
+		
 		return new ResponseEntity<>("회원가입 완료", HttpStatus.OK);
 	}
 	
-
-	
 	@PutMapping("/user")
 	public ResponseEntity<?> updateUser(@RequestBody User user, Authentication authentication) {
-		userService.updateUser(user, getUser(authentication));
+		if(!userService.updateUser(user, getAuthUser(authentication)))
+			return new ResponseEntity<>("회원정보수정 실패", HttpStatus.BAD_REQUEST);
+		
 		return new ResponseEntity<>("회원정보수정 완료", HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/user")
 	public ResponseEntity<?> deleteUser(Authentication authentication) {
-		userService.deleteUser(getUser(authentication));
+		if(!userService.deleteUser(getAuthUser(authentication)))
+			return new ResponseEntity<>("회원탈퇴 실패", HttpStatus.BAD_REQUEST);
+		
 		return new ResponseEntity<>("회원탈퇴 완료", HttpStatus.OK);
 	}
 	
@@ -65,10 +69,9 @@ public class UserController {
 		return userService.getResponseEntity(user.getUsername(), user.getPassword());
 	}
 	
-	
 	@GetMapping("/approval")
 	public ResponseEntity<?> getWebUserList() {
-		List<User> notUserList = userService.notUserList();
+		List<User> notUserList = userService.getWebUserList();
 		return new ResponseEntity<>(notUserList, HttpStatus.OK);
 	}
 	

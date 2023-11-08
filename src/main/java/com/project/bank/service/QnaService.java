@@ -28,7 +28,7 @@ public class QnaService {
 	}
 	
 	@Transactional
-	public Boolean updateQna(Qna qna, int id) {
+	public boolean updateQna(Qna qna, int id) {
 		Qna oldQna = qnaRepository.findById(id).orElse(null);
 		if(oldQna == null)
 			return false;
@@ -38,8 +38,8 @@ public class QnaService {
 		return true;
 	}
 	
-	public Boolean deleteQna(int id) {
-		Boolean result = qnaRepository.existsById(id);
+	public boolean deleteQna(int id) {
+		boolean result = qnaRepository.existsById(id);
 		qnaRepository.deleteById(id);
 		return result;
 	}
