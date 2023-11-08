@@ -8,12 +8,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.project.bank.domain.User;
+import com.project.bank.domain.RoleType;
+
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>{
 	Optional<User> findByUsername(String username);
 	boolean existsByUsername(String username);
-	
-	@Query(value = "SELECT * FROM users u WHERE u.role = 'WEBUSER'", nativeQuery = true)
-	List<User> findByRole();
+	List<User> findByRole(RoleType role);
+//	@Query(value = "SELECT * FROM users u WHERE u.role = 'WEBUSER'", nativeQuery = true)
+//	List<User> findByRole();
 }

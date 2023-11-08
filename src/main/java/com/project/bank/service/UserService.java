@@ -88,7 +88,7 @@ public class UserService {
 	}
 	
 	public List<User> getWebUserList() {
-		return userRepository.findByRole();
+		return userRepository.findByRole(RoleType.WEBUSER);
 	}
 	
 	public boolean updateWebUserRole(List<User> webUsers) {
