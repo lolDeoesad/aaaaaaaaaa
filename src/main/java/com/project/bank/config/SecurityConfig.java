@@ -35,15 +35,20 @@ public class SecurityConfig {
 		
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.authorizeRequests()
-			.antMatchers(HttpMethod.GET, "/", "/user", "/about/**", "/qna/**").permitAll()
-			.antMatchers(HttpMethod.POST, "/user", "/login").permitAll()
+
+			.antMatchers(HttpMethod.GET, 	"/", "/user", "/qna").permitAll()
+			.antMatchers(HttpMethod.POST, 	"/user", "/login").permitAll()
+
+			.antMatchers(HttpMethod.POST, 	"/qna").hasRole("ADMIN")
+			.antMatchers(HttpMethod.PUT, 	"/qna").hasRole("ADMIN")
+			.antMatchers(HttpMethod.DELETE, "/qna").hasRole("ADMIN")
+
 			.anyRequest().authenticated()
 			.and()
 			.exceptionHandling()
 			.authenticationEntryPoint(authEntryPoint)
 			.and()
 			.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-		
 		return http.build();
 	}
 	

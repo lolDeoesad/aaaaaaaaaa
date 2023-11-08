@@ -39,10 +39,9 @@ public class QnaService {
 	}
 	
 	public Boolean deleteQna(int id) {
-		Qna oldQna = qnaRepository.findById(id).orElse(null);
-		Bool qnaRepository.existsById(ID id)
+		Boolean result = qnaRepository.existsById(id);
 		qnaRepository.deleteById(id);
-		
+		return result;
 	}
 	
 	

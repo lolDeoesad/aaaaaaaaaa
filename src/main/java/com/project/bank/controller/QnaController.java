@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -66,12 +67,12 @@ public class QnaController {
 		return new ResponseEntity<>("Qna수정 완료", HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/qna")
-	public ResponseEntity<?> deleteQna(Authentication authentication, int id) {
+	@DeleteMapping("/qna/{id}")
+	public ResponseEntity<?> deleteQna(Authentication authentication, @PathVariable int id) {
 		if(!userService.hasRole(RoleType.ADMIN, authentication))
 			return new ResponseEntity<>("관리자만 Qna삭제 가능", HttpStatus.BAD_REQUEST);
 		
-		if(!qnaService.updateQna(modelMapper.map(qnaDTO, Qna.class)))
+		if(!qnaService.deleteQna(id))
 			return new ResponseEntity<>("Qna삭제 실패", HttpStatus.BAD_REQUEST);
 		
 		return new ResponseEntity<>("Qna삭제 완료", HttpStatus.OK);
