@@ -27,9 +27,9 @@ public class SecurityConfig {
 	
 	@Autowired
 	private AuthEntryPoint authEntryPoint;
-	
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 		http.cors();
 		
@@ -39,11 +39,14 @@ public class SecurityConfig {
 			.antMatchers(HttpMethod.GET, 	"/", "/user", "/qna").permitAll()
 			.antMatchers(HttpMethod.POST, 	"/user", "/login").permitAll()
 
+			.antMatchers(HttpMethod.GET, 	"/qna/*").hasRole("ADMIN")
 			.antMatchers(HttpMethod.POST, 	"/qna").hasRole("ADMIN")
-			.antMatchers(HttpMethod.PUT, 	"/qna").hasRole("ADMIN")
-			.antMatchers(HttpMethod.DELETE, "/qna").hasRole("ADMIN")
+			.antMatchers(HttpMethod.PUT, 	"/qna/*").hasRole("ADMIN")
+			.antMatchers(HttpMethod.DELETE, "/qna/*").hasRole("ADMIN")
 
-			.anyRequest().authenticated()
+//			.anyRequest().authenticated()
+			.anyRequest().denyAll()
+			
 			.and()
 			.exceptionHandling()
 			.authenticationEntryPoint(authEntryPoint)

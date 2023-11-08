@@ -7,8 +7,6 @@ import lombok.Data;
 @Data
 public class QnaDTO {
 	
-	private int id;
-	
 	@NotBlank(message = "제목 필수 입력")
 	private String title;
 	

@@ -28,8 +28,8 @@ public class QnaService {
 	}
 	
 	@Transactional
-	public Boolean updateQna(Qna qna) {
-		Qna oldQna = qnaRepository.findById(qna.getId()).orElse(null);
+	public Boolean updateQna(Qna qna, int id) {
+		Qna oldQna = qnaRepository.findById(id).orElse(null);
 		if(oldQna == null)
 			return false;
 		oldQna.setTitle(qna.getTitle());
