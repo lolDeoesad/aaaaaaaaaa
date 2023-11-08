@@ -25,11 +25,17 @@ public class AccountController {
 	@Autowired
 	private	UserService userService;
 
-	@GetMapping("/account")
-	public ResponseEntity<?> getAccountList() {
-		List<Account> accountList = accountService.getAccountList();
-		return new ResponseEntity<>(accountList, HttpStatus.OK);
-	}
+//	@GetMapping("/account")
+//	public ResponseEntity<?> getAccountList() {
+//		List<Account> accountList = accountService.getAccountList();
+//		return new ResponseEntity<>(accountList, HttpStatus.OK);
+//	}
+	
+//	@GetMapping("/account/{id}")
+//	public ResponseEntity<?> getAccount() {
+//		List<Account> accountList = accountService.getAccountList();
+//		return new ResponseEntity<>(accountList, HttpStatus.OK);
+//	}
 	
 	@PostMapping("/account")
 	public ResponseEntity<?> insertAccount(Authentication authentication) {

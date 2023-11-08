@@ -42,10 +42,15 @@ public class SecurityConfig {
 			.antMatchers(HttpMethod.GET, 	"/user").authenticated()
 			.antMatchers(HttpMethod.PUT, 	"/user").authenticated()
 			.antMatchers(HttpMethod.DELETE, "/user").authenticated()
+			
+// WEBUSER, CUSTOMER, MANAGER, ADMIN
+
+//			.antMatchers(HttpMethod.GET, 	"/account").hasAnyRole("CUSTOMER", "MANAGER")
+			.antMatchers(HttpMethod.POST, 	"/account").hasAnyRole("CUSTOMER", "MANAGER")
+			.antMatchers(HttpMethod.DELETE, "/account").hasAnyRole("CUSTOMER", "MANAGER")
 
 			.antMatchers(HttpMethod.GET, 	"/qna/*", "/approval").hasRole("ADMIN")
 			.antMatchers(HttpMethod.POST, 	"/qna", "/approval").hasRole("ADMIN")
-
 			.antMatchers(HttpMethod.PUT, 	"/qna/*").hasRole("ADMIN")
 			.antMatchers(HttpMethod.DELETE, "/qna/*").hasRole("ADMIN")
 

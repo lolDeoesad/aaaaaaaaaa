@@ -7,5 +7,4 @@ import com.project.bank.domain.Qna;
 
 @Repository
 public interface QnaRepository extends JpaRepository<Qna, Integer>{
-
 }
