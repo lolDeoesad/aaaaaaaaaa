@@ -49,6 +49,9 @@ public class Transaction {
 	@Transient
 	private Account depositor, withdrawal;
 	
+	@Column(length = 20)
+	private String subject; // 거래 대상의 이름 fname
+
 	@Column(length = 100)
 	private String memo;
 }

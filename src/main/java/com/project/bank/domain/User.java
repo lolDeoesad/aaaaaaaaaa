@@ -17,6 +17,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -85,11 +86,32 @@ public class User {
 	@CreationTimestamp
 	private Timestamp time; // 가입일
 	
-	@CreationTimestamp
-	private Timestamp lastLoginTime; // 최종로그인
+	@UpdateTimestamp
+	private Timestamp lastUpdateTime; // 최종수정일
 	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@OrderBy("id desc")
 	private List<Account> accountList; // 계좌 목록
+	
+	public int getNumAccountsOpened() {
+		int result = 0;
+		for(Account account : accountList) {
+			if(account.isOpen())
+				result++;
+		}
+		return result;
+	}
+	
+	public boolean canOpenAccount() {
+		return this.role.equals(RoleType.CUSTOMER) && getNumAccountsOpened() < 10;
+	}
+	
+	public boolean hasAccount(int accountId) {
+		for(Account account : accountList) {
+			if(account.getId() == accountId)
+				return true;
+		}
+		return false;
+	}
 }

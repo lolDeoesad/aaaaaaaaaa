@@ -33,12 +33,24 @@ public class UserService {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
+	public User getAuthUser(String username) {
+		return userRepository.findByUsername(username).get();
+	}
+	
 	public User getUser(String username) {
 		User findUser = userRepository.findByUsername(username).orElse(null);
 		if(findUser == null)
 			return null;
-		findUser.setPassword("비밀번호 변경을 원하실 경우에만 새로 입력하세요!"); // frontend에서 "" 허용 관련 수정 후 ""로 바꿀 예정	
-		return findUser;
+		User sendUser = new User(findUser.getId(), findUser.getUsername(), 
+									"비밀번호 변경을 원하실 경우에만 새로 입력하세요!", // frontend에서 "" 허용 관련 수정 후 ""로 바꿀 예정
+									findUser.getFname(), findUser.getRole(), findUser.getIdNo(),
+									findUser.getEmail(), findUser.getPhone(), findUser.getCountry(),
+									findUser.getAddress(), findUser.getAddressDetail(),
+									findUser.getJobName(), findUser.getTeamName(), findUser.getJobAddress(), 
+									findUser.getJobAddressDetail(), findUser.getJobPhone(), findUser.getAgree(),
+									findUser.getTime(), findUser.getLastUpdateTime(), findUser.getAccountList()
+									);
+		return sendUser;
 	}
 	
 	public User insertUser(User user) {
@@ -67,7 +79,7 @@ public class UserService {
 	
 	public boolean deleteUser(User user) {
 		Integer id = user.getId();
-		if(id == null || userRepository.existsById(id))
+		if(id == null || !userRepository.existsById(id))
 			return false;
 		userRepository.deleteById(id);
 		return true;

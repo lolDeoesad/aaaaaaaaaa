@@ -1,7 +1,5 @@
 package com.project.bank.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,19 +12,22 @@ public class AccountService {
 
 	@Autowired
 	private AccountRepository accountRepository;
-
-	public void insertAccount(User user) {
-		Account account = new Account();
-		account.setBalance(0);
-		account.setUser(user);
-		accountRepository.save(account);
+	
+	public Account getAccount(int id) {
+		return accountRepository.findById(id).get();
 	}
 
-	public List<Account> getAccountList() {
-		return accountRepository.findAllByOrderByIdDesc();
+	public Account insertAccount(User user) {
+		if(!user.canOpenAccount())
+			return null;
+		Account account = new Account();
+		account.setUser(user);
+		account.setBalance(0);
+		return accountRepository.save(account);
 	}
 
 	public void deleteAccount(int id) {
-		accountRepository.deleteById(id);
+//		accountRepository.deleteById(id);
+//		new Timestamp(System.currentTimeMillis());
 	}
 }

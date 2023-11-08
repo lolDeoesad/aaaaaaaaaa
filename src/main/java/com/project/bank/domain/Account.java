@@ -42,10 +42,15 @@ public class Account {
 	
 	@CreationTimestamp
 	private Timestamp time; // 계좌 생성일
+
+	private Timestamp closedTime; // 계좌 해지일
 	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "account", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@OrderBy("id desc")
 	private List<Transaction> transactionList; // 거래
-
+	
+	public boolean isOpen() {
+		return closedTime == null;
+	}
 }
