@@ -1,9 +1,16 @@
 package com.project.bank.service;
 
+import java.sql.Timestamp;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.project.bank.domain.Account;
+import com.project.bank.domain.RoleType;
 import com.project.bank.domain.User;
 import com.project.bank.repository.AccountRepository;
 
@@ -13,21 +20,34 @@ public class AccountService {
 	@Autowired
 	private AccountRepository accountRepository;
 	
-	public Account getAccount(int id) {
-		return accountRepository.findById(id).get();
+	public ResponseEntity<?> getAccount(User user, int id) {
+		if(user.getRole().equals(RoleType.CUSTOMER) && !user.hasAccount(id))
+			return new ResponseEntity<>("계좌조회 실패", HttpStatus.BAD_REQUEST);
+		
+		return new ResponseEntity<>(accountRepository.findById(id).get(), HttpStatus.OK);
 	}
 
-	public Account insertAccount(User user) {
+	public ResponseEntity<?> insertAccount(User user) {
 		if(!user.canOpenAccount())
-			return null;
+			return new ResponseEntity<>("계좌개설 제한", HttpStatus.BAD_REQUEST);
+		
 		Account account = new Account();
 		account.setUser(user);
 		account.setBalance(0);
-		return accountRepository.save(account);
+		if(accountRepository.save(account) == null)
+			return new ResponseEntity<>("계좌개설 실패", HttpStatus.BAD_REQUEST);
+		
+		return new ResponseEntity<>("계좌개설 완료", HttpStatus.OK);
 	}
 
-	public void deleteAccount(int id) {
-//		accountRepository.deleteById(id);
-//		new Timestamp(System.currentTimeMillis());
+	@Transactional
+	public ResponseEntity<?> deleteAccount(User user, int id) {
+		if(user.canCloseAccount(id) <= 0)
+			return new ResponseEntity<>("계좌해지 실패", HttpStatus.BAD_REQUEST);
+		
+		Account account = accountRepository.findById(id).get();
+		account.setClosedTime(new Timestamp(System.currentTimeMillis()));
+		
+		return new ResponseEntity<>("계좌해지 완료", HttpStatus.OK);
 	}
 }

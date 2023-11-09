@@ -94,17 +94,13 @@ public class User {
 	@OrderBy("id desc")
 	private List<Account> accountList; // 계좌 목록
 	
-	public int getNumAccountsOpened() {
-		int result = 0;
+	public boolean canOpenAccount() {
+		int numAccountsOpened = 0;
 		for(Account account : accountList) {
 			if(account.isOpen())
-				result++;
+				numAccountsOpened++;
 		}
-		return result;
-	}
-	
-	public boolean canOpenAccount() {
-		return this.role.equals(RoleType.CUSTOMER) && getNumAccountsOpened() < 10;
+		return numAccountsOpened < 10;
 	}
 	
 	public boolean hasAccount(int accountId) {
@@ -113,5 +109,13 @@ public class User {
 				return true;
 		}
 		return false;
+	}
+	
+	public int canCloseAccount(int accountId) {
+		for(Account account : accountList) {
+			if(account.getId() == accountId)
+				return (account.isOpen() && account.getBalance()==0) ? 1 : 0;
+		}
+		return -1;
 	}
 }

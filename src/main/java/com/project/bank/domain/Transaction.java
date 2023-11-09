@@ -12,7 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -30,7 +29,7 @@ public class Transaction {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private int id;
+	private Integer id;
 
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -46,8 +45,8 @@ public class Transaction {
 	@Enumerated(EnumType.STRING)
 	private TransferType type; // DEPOSIT, WITHDRAW
 
-	@Transient
-	private Account depositor, withdrawal;
+//	@Transient
+//	private Account depositor, withdrawal;
 	
 	@Column(length = 20)
 	private String subject; // 거래 대상의 이름 fname

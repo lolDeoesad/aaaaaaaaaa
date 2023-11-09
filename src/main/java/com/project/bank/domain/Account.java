@@ -31,7 +31,7 @@ public class Account {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private int id;
+	private Integer id;
 	
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -39,6 +39,8 @@ public class Account {
 	private User user;
 	
 	private int balance;
+	
+	private String financialProductId;
 	
 	@CreationTimestamp
 	private Timestamp time; // 계좌 생성일

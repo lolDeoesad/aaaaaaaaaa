@@ -52,9 +52,10 @@ public class SecurityConfig {
 			.antMatchers(HttpMethod.GET, 	"/account/*").hasAnyRole("CUSTOMER", "MANAGER")
 			.antMatchers(HttpMethod.POST, 	"/account").hasRole("CUSTOMER")
 			.antMatchers(HttpMethod.POST, 	"/account/*").hasAnyRole("MANAGER")
-			.antMatchers(HttpMethod.DELETE, "/account/*").hasAnyRole("CUSTOMER", "MANAGER")
+			.antMatchers(HttpMethod.DELETE, "/account/*").hasAnyRole("CUSTOMER")
+			.antMatchers(HttpMethod.DELETE, "/account/*/*").hasAnyRole("MANAGER")
 
-			.antMatchers(HttpMethod.GET, 	"/transfer").hasAnyRole("CUSTOMER", "MANAGER")
+			.antMatchers(HttpMethod.GET, 	"/transfer/*").hasAnyRole("CUSTOMER", "MANAGER")
 			.antMatchers(HttpMethod.POST, 	"/transfer").hasAnyRole("CUSTOMER", "MANAGER")
 
 			.antMatchers(HttpMethod.GET, 	"/qna").permitAll()

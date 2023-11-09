@@ -23,7 +23,7 @@ public class Qna {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private int id;
+	private Integer id;
 	
 	@Column(nullable = false, length = 100)
 	private String title;
