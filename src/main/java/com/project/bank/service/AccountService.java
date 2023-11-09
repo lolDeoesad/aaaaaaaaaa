@@ -18,14 +18,14 @@ public class AccountService {
 	@Autowired
 	private AccountRepository accountRepository;
 	
-	public Account getAccount(User user, int id) {
+	public Account get(User user, int id) {
 		if(user.getRole().equals(RoleType.CUSTOMER) && !user.hasAccount(id))
 			return null;
 		
 		return accountRepository.findById(id).get();
 	}
 
-	public int insertAccount(User user) {
+	public int insert(User user) {
 		if(!user.canOpenAccount())
 			return 400;
 		
@@ -39,7 +39,7 @@ public class AccountService {
 	}
 
 	@Transactional
-	public int deleteAccount(User user, int id) {
+	public int delete(User user, int id) {
 		if(user.canCloseAccount(id) <= 0)
 			return 400;
 		

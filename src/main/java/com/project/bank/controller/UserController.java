@@ -23,14 +23,14 @@ public class UserController {
 	@Autowired
 	private	UserService userService;
 	
-	public User getAuthUser(Authentication authentication) {
+	public User getAuth(Authentication authentication) {
 		String username = authentication.getName();
-		return userService.getUser(username);
+		return userService.get(username);
 	}
 	
 	@GetMapping("/user")
 	public ResponseEntity<?> get(Authentication authentication) {
-		return new ResponseEntity<>(getAuthUser(authentication), HttpStatus.OK);
+		return new ResponseEntity<>(getAuth(authentication), HttpStatus.OK);
 	}
 
 	@GetMapping("/hasUser")
@@ -41,24 +41,24 @@ public class UserController {
 	}
 	
 	@PostMapping("/user")
-	public ResponseEntity<?> insertUser(@RequestBody User user) {
-		if(userService.insertUser(user) == null)
+	public ResponseEntity<?> insert(@RequestBody User user) {
+		if(userService.insert(user) == null)
 			return new ResponseEntity<>("회원가입 실패", HttpStatus.BAD_REQUEST);
 		
 		return new ResponseEntity<>("회원가입 완료", HttpStatus.OK);
 	}
 	
 	@PutMapping("/user")
-	public ResponseEntity<?> updateUser(@RequestBody User user, Authentication authentication) {
-		if(!userService.updateUser(user, getAuthUser(authentication)))
+	public ResponseEntity<?> update(@RequestBody User user, Authentication authentication) {
+		if(!userService.update(user, getAuth(authentication)))
 			return new ResponseEntity<>("회원정보수정 실패", HttpStatus.BAD_REQUEST);
 		
 		return new ResponseEntity<>("회원정보수정 완료", HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/user")
-	public ResponseEntity<?> deleteUser(Authentication authentication) {
-		if(!userService.deleteUser(getAuthUser(authentication)))
+	public ResponseEntity<?> delete(Authentication authentication) {
+		if(!userService.delete(getAuth(authentication)))
 			return new ResponseEntity<>("회원탈퇴 실패", HttpStatus.BAD_REQUEST);
 		
 		return new ResponseEntity<>("회원탈퇴 완료", HttpStatus.OK);

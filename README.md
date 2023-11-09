@@ -17,7 +17,7 @@ rootProject.name = '1020_backend'
 
 ## List  
 
-1. 거래 적용
+1. 거래 적용 → 계좌, 거래 with manager
 1. security config uri 권한 확인
 1. login 유지 시간 확인!!! 마이페이지 → 정보수정
 1. user detail impl - role 반환 수정
@@ -26,7 +26,7 @@ rootProject.name = '1020_backend'
 1. 함수명, uri 정리, user, checkUser 변경
 1. .get()s 처리, return type 정리해서 경우의 수 state diagram 정리 후 handling
 1. 최대 개설 가능한 계좌 개수 제한
-1. 계좌 이체 (-) 금액 불가능하도록... DTO?  
+1. 계좌 이체 (-) 금액 불가능하도록... DTO?
 1. 로그인 후 들어갈 수 있는 페이지 구분 @front, isAuth state 구분
 1. 아이디, 비밀번호 찾기, modal design  
 1. paging 처리  
@@ -54,6 +54,10 @@ rootProject.name = '1020_backend'
 
 1. 정보수정 front에서 값 입력이 왜 안될까? 값을 입력하는 것만 수정하도록 방식 바꿔야 할지 아니면 수정이 가능한지 확인해볼 것...  
 userInfo → user (state 해결)  
+1. Pattern 관점에서 Controller Service 영역 구분 및 handling  
+backend가 frontend와의 대화는 message로 하는 게 아니라 status로 하면 된다는 사실에...생각이 좀 정리된 듯  
+data를 보내야 하는 거는 보내야할 data 타입을 리턴하고, 데이터를 수반하지 않은 경우는 경우의 수 int가 용이  
+frontend에서 고민해야 할일을 괜히 하는 척 오지랖 ㄴㄴ  
 
 ### Q
 

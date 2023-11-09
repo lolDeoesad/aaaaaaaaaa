@@ -56,7 +56,8 @@ public class SecurityConfig {
 			.antMatchers(HttpMethod.DELETE, "/account/*/*").hasAnyRole("MANAGER")
 
 			.antMatchers(HttpMethod.GET, 	"/transfer/*").hasAnyRole("CUSTOMER", "MANAGER")
-			.antMatchers(HttpMethod.POST, 	"/transfer").hasAnyRole("CUSTOMER", "MANAGER")
+			.antMatchers(HttpMethod.POST, 	"/transfer/*").hasAnyRole("CUSTOMER", "MANAGER")
+			.antMatchers(HttpMethod.PUT, 	"/transfer/*").hasAnyRole("CUSTOMER")
 
 			.antMatchers(HttpMethod.GET, 	"/qna").permitAll()
 			.antMatchers(HttpMethod.GET, 	"/qna/*").hasRole("ADMIN")

@@ -33,11 +33,11 @@ public class UserService {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-	public User getAuthUser(String username) {
+	public User getAuth(String username) {
 		return userRepository.findByUsername(username).get();
 	}
 	
-	public User getUser(String username) {
+	public User get(String username) {
 		User findUser = userRepository.findByUsername(username).orElse(null);
 		if(findUser == null)
 			return null;
@@ -53,14 +53,14 @@ public class UserService {
 		return sendUser;
 	}
 	
-	public User insertUser(User user) {
+	public User insert(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setRole(RoleType.WEBUSER);
 		return userRepository.save(user);	
 	}
 	
 	@Transactional
-	public boolean updateUser(User user, User loginUser) {
+	public boolean update(User user, User loginUser) {
 		Integer id = loginUser.getId();
 		if(id == null || userRepository.existsById(id))
 			return false;
@@ -77,7 +77,7 @@ public class UserService {
 		return userRepository.save(user) != null;
 	}
 	
-	public boolean deleteUser(User user) {
+	public boolean delete(User user) {
 		Integer id = user.getId();
 		if(id == null || !userRepository.existsById(id))
 			return false;

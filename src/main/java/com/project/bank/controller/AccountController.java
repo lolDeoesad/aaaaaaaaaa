@@ -25,16 +25,16 @@ public class AccountController {
 	private	UserService userService;
 
 //	@GetMapping("/account")
-//	public ResponseEntity<?> getAccountList() {
+//	public ResponseEntity<?> getList() {
 //		List<Account> accountList = accountService.getAccountList();
 //		return new ResponseEntity<>(accountList, HttpStatus.OK);
 //	}
 	
 	@GetMapping("/account/{id}")
-	public ResponseEntity<?> getAccount(Authentication authentication, @PathVariable int id) {
-		User loginUser = userService.getAuthUser(authentication.getName());
+	public ResponseEntity<?> get(Authentication authentication, @PathVariable int id) {
+		User loginUser = userService.getAuth(authentication.getName());
 
-		Account account = accountService.getAccount(loginUser, id);
+		Account account = accountService.get(loginUser, id);
 		if(account == null)
 			return new ResponseEntity<>("계좌조회 실패", HttpStatus.BAD_REQUEST);
 		
@@ -42,9 +42,9 @@ public class AccountController {
 	}
 	
 	@PostMapping("/account")
-	public ResponseEntity<?> insertAccount(Authentication authentication) {
-		User loginUser = userService.getAuthUser(authentication.getName());
-		int result = accountService.insertAccount(loginUser);
+	public ResponseEntity<?> insert(Authentication authentication) {
+		User loginUser = userService.getAuth(authentication.getName());
+		int result = accountService.insert(loginUser);
 		return new ResponseEntity<>(HttpStatus.valueOf(result));
 
 //		지금은 이해를 돕기 위해 message를 넣지만 차후에는 status만 보내도록 변경해서 if문 분기 없앨 예정!
@@ -59,9 +59,9 @@ public class AccountController {
 	}
 	
 	@PostMapping("/account/{username}")
-	public ResponseEntity<?> insertAccountWithManager(@PathVariable String username) {
-		User user = userService.getAuthUser(username);
-		int result = accountService.insertAccount(user);
+	public ResponseEntity<?> insertWithManager(@PathVariable String username) {
+		User user = userService.getAuth(username);
+		int result = accountService.insert(user);
 		return new ResponseEntity<>(HttpStatus.valueOf(result));
 		
 //		if(result == 400)
@@ -74,9 +74,9 @@ public class AccountController {
 	}
 
 	@DeleteMapping("/account/{id}")
-	public ResponseEntity<?> deleteAccount(Authentication authentication, @PathVariable int id) {
-		User loginUser = userService.getAuthUser(authentication.getName());
-		int result = accountService.deleteAccount(loginUser, id);
+	public ResponseEntity<?> delete(Authentication authentication, @PathVariable int id) {
+		User loginUser = userService.getAuth(authentication.getName());
+		int result = accountService.delete(loginUser, id);
 		return new ResponseEntity<>(HttpStatus.valueOf(result));
 
 //		if(result == 400)
@@ -86,9 +86,9 @@ public class AccountController {
 	}
 
 	@DeleteMapping("/account/{id}/{username}")
-	public ResponseEntity<?> deleteAccountWithManager(@PathVariable int id, @PathVariable String username) {
-		User user = userService.getAuthUser(username);
-		int result = accountService.deleteAccount(user, id);
+	public ResponseEntity<?> deleteWithManager(@PathVariable int id, @PathVariable String username) {
+		User user = userService.getAuth(username);
+		int result = accountService.delete(user, id);
 		return new ResponseEntity<>(HttpStatus.valueOf(result));
 
 //		if(result == 400)

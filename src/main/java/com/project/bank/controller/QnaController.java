@@ -32,34 +32,34 @@ public class QnaController {
 	private ModelMapper modelMapper;
 
 	@GetMapping("/qna")
-	public ResponseEntity<?> getQnaList(@PageableDefault(size=10, sort="id", direction=Direction.DESC) Pageable pageable){	
-		return new ResponseEntity<>(qnaService.getQnaList(pageable), HttpStatus.OK);
+	public ResponseEntity<?> getList(@PageableDefault(size=10, sort="id", direction=Direction.DESC) Pageable pageable){	
+		return new ResponseEntity<>(qnaService.getList(pageable), HttpStatus.OK);
 	}
 
 	@GetMapping("/qna/{id}")
-	public ResponseEntity<?> getQna(@PathVariable int id){	
-		return new ResponseEntity<>(qnaService.getQna(id), HttpStatus.OK);
+	public ResponseEntity<?> get(@PathVariable int id){	
+		return new ResponseEntity<>(qnaService.get(id), HttpStatus.OK);
 	}
 
 	@PostMapping("/qna")
-	public ResponseEntity<?> insertQna(@Valid @RequestBody QnaDTO qnaDTO, BindingResult bindingResult) {
-		if(qnaService.insertQna(modelMapper.map(qnaDTO, Qna.class)) == null)
+	public ResponseEntity<?> insert(@Valid @RequestBody QnaDTO qnaDTO, BindingResult bindingResult) {
+		if(qnaService.insert(modelMapper.map(qnaDTO, Qna.class)) == null)
 			return new ResponseEntity<>("Qna등록 실패", HttpStatus.BAD_REQUEST);
 		
 		return new ResponseEntity<>("Qna등록 완료", HttpStatus.OK);
 	}
 
 	@PutMapping("/qna/{id}")
-	public ResponseEntity<?> updateQna(@Valid @RequestBody QnaDTO qnaDTO, BindingResult bindingResult, @PathVariable int id) {
-		if(!qnaService.updateQna(modelMapper.map(qnaDTO, Qna.class), id))
+	public ResponseEntity<?> update(@Valid @RequestBody QnaDTO qnaDTO, BindingResult bindingResult, @PathVariable int id) {
+		if(!qnaService.update(modelMapper.map(qnaDTO, Qna.class), id))
 			return new ResponseEntity<>("Qna수정 실패", HttpStatus.BAD_REQUEST);
 		
 		return new ResponseEntity<>("Qna수정 완료", HttpStatus.OK);
 	}
 
 	@DeleteMapping("/qna/{id}")
-	public ResponseEntity<?> deleteQna(@PathVariable int id) {
-		if(!qnaService.deleteQna(id))
+	public ResponseEntity<?> delete(@PathVariable int id) {
+		if(!qnaService.delete(id))
 			return new ResponseEntity<>("Qna삭제 실패", HttpStatus.BAD_REQUEST);
 		
 		return new ResponseEntity<>("Qna삭제 완료", HttpStatus.OK);

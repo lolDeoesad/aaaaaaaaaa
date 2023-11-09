@@ -15,20 +15,20 @@ public class QnaService {
 	@Autowired
 	private QnaRepository qnaRepository;
 	
-	public Page<Qna> getQnaList(Pageable pageable){
+	public Page<Qna> getList(Pageable pageable){
 		return qnaRepository.findAll(pageable);
 	}
 	
-	public Qna getQna(int id) {
+	public Qna get(int id) {
 		return qnaRepository.findById(id).get();
 	}
 	
-	public Qna insertQna(Qna qna) {	
+	public Qna insert(Qna qna) {	
 		return qnaRepository.save(qna);
 	}
 	
 	@Transactional
-	public boolean updateQna(Qna qna, int id) {
+	public boolean update(Qna qna, int id) {
 		Qna oldQna = qnaRepository.findById(id).orElse(null);
 		if(oldQna == null)
 			return false;
@@ -38,7 +38,7 @@ public class QnaService {
 		return true;
 	}
 	
-	public boolean deleteQna(int id) {
+	public boolean delete(int id) {
 		boolean result = qnaRepository.existsById(id);
 		qnaRepository.deleteById(id);
 		return result;

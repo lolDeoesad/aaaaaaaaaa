@@ -13,4 +13,6 @@ public class TransactionDTO {
 	
 	@Positive(message = "송금할 금액은 양수만 가능")
 	private int money;
+	
+	private String memo;
 }
