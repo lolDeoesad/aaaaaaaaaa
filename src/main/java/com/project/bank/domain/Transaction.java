@@ -44,9 +44,6 @@ public class Transaction {
 	
 	@Enumerated(EnumType.STRING)
 	private TransferType type; // DEPOSIT, WITHDRAW
-
-//	@Transient
-//	private Account depositor, withdrawal;
 	
 	@Column(length = 20)
 	private String subject; // 거래 대상의 이름 fname

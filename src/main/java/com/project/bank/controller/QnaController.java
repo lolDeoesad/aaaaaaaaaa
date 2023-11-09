@@ -24,13 +24,13 @@ import com.project.bank.service.QnaService;
 
 @RestController
 public class QnaController {
-	
+
 	@Autowired
 	private QnaService qnaService;
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	@GetMapping("/qna")
 	public ResponseEntity<?> getQnaList(@PageableDefault(size=10, sort="id", direction=Direction.DESC) Pageable pageable){	
 		return new ResponseEntity<>(qnaService.getQnaList(pageable), HttpStatus.OK);
@@ -40,7 +40,7 @@ public class QnaController {
 	public ResponseEntity<?> getQna(@PathVariable int id){	
 		return new ResponseEntity<>(qnaService.getQna(id), HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/qna")
 	public ResponseEntity<?> insertQna(@Valid @RequestBody QnaDTO qnaDTO, BindingResult bindingResult) {
 		if(qnaService.insertQna(modelMapper.map(qnaDTO, Qna.class)) == null)
@@ -56,7 +56,7 @@ public class QnaController {
 		
 		return new ResponseEntity<>("Qna수정 완료", HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/qna/{id}")
 	public ResponseEntity<?> deleteQna(@PathVariable int id) {
 		if(!qnaService.deleteQna(id))

@@ -60,7 +60,7 @@ public class UserService {
 	}
 	
 	@Transactional
-	public Boolean updateUser(User user, User loginUser) {
+	public boolean updateUser(User user, User loginUser) {
 		Integer id = loginUser.getId();
 		if(id == null || userRepository.existsById(id))
 			return false;

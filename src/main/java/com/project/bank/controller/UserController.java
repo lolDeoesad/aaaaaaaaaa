@@ -36,7 +36,7 @@ public class UserController {
 	@GetMapping("/hasUser")
 	public ResponseEntity<?> hasUser(@RequestParam String username) {
 		if(userService.hasUser(username))
-			return new ResponseEntity<>("이미 존재하는 아이디입니다", HttpStatus.OK);
+			return new ResponseEntity<>("이미 존재하는 아이디입니다", HttpStatus.OK); // userService return type 통일 시키려면 상태코드 바꿔야 할 듯
 		return new ResponseEntity<>("사용 가능한 아이디입니다", HttpStatus.OK);
 	}
 	
