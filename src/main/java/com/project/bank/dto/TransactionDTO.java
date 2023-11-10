@@ -8,8 +8,8 @@ import lombok.Data;
 
 @Data
 public class TransactionDTO {
-	
-	private Account account;
+	@Positive(message = "송금할 계좌번호 확인 필요")
+	private int accountId;
 	
 	@Positive(message = "송금할 금액은 양수만 가능")
 	private int money;

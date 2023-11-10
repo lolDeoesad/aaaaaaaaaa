@@ -40,7 +40,7 @@ public class Account {
 	
 	private int balance;
 	
-	private String financialProductId;
+//	private String financialProductId;
 	
 	@CreationTimestamp
 	private Timestamp time; // 계좌 생성일

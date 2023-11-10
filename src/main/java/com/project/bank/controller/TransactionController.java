@@ -33,7 +33,7 @@ public class TransactionController {
 	@Autowired
 	private ModelMapper modelMapper;
 	
-	@GetMapping("/transfer/{transferId}")
+	@GetMapping("/transfer/{transactionId}")
 	public ResponseEntity<?> get(Authentication authentication, @PathVariable int transactionId) {
 		User loginUser = userService.getAuth(authentication.getName());
 		
@@ -44,23 +44,23 @@ public class TransactionController {
 		return new ResponseEntity<>(transaction, HttpStatus.OK);
 	}
 
-	@PostMapping("/transfer/{accountId}")
-	public ResponseEntity<?> insert(Authentication authentication, @PathVariable int accountId, @Valid @RequestBody TransactionDTO transactionDTO, BindingResult bindingResult) {
+	@PostMapping("/transfer/{accountFromId}")
+	public ResponseEntity<?> insert(Authentication authentication, @PathVariable int accountFromId, @Valid @RequestBody TransactionDTO transactionDTO, BindingResult bindingResult) {
 		User loginUser = userService.getAuth(authentication.getName());
 		
 		Transaction transaction = modelMapper.map(transactionDTO, Transaction.class);
-		int result = transactionService.insert(loginUser, accountId, transaction);
+		int result = transactionService.insert(loginUser, accountFromId, transactionDTO.getAccountId(), transaction);
 		return new ResponseEntity<>(HttpStatus.valueOf(result));
 //		return new ResponseEntity<>("계좌이체 완료", HttpStatus.OK);
 	}
 	
-	@PutMapping("/transfer/{transferId}")
-	public ResponseEntity<?> update(Authentication authentication, @PathVariable int transferId, @Valid @RequestBody TransactionDTO transactionDTO, BindingResult bindingResult) {
+	@PutMapping("/transfer/{transactionId}")
+	public ResponseEntity<?> update(Authentication authentication, @PathVariable int transactionId, @Valid @RequestBody TransactionDTO transactionDTO, BindingResult bindingResult) {
 		User loginUser = userService.getAuth(authentication.getName());
 		
 		Transaction transaction = modelMapper.map(transactionDTO, Transaction.class);
-		int result = transactionService.update(loginUser, transferId, transaction);
+		int result = transactionService.update(loginUser, transactionId, transaction);
 		return new ResponseEntity<>(HttpStatus.valueOf(result));
-//		return new ResponseEntity<>("계좌이체 완료", HttpStatus.OK);
+//		return new ResponseEntity<>("계좌메모수정 완료", HttpStatus.OK);
 	}
 }

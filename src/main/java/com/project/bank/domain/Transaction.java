@@ -4,8 +4,6 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -42,12 +40,22 @@ public class Transaction {
 	@CreationTimestamp
 	private Timestamp time;
 	
-	@Enumerated(EnumType.STRING)
-	private TransferType type; // DEPOSIT, WITHDRAW
+//	@Enumerated(EnumType.STRING)
+//	private TransferType type; // DEPOSIT, WITHDRAW, money 음/양으로 할 수는 있어서...
 	
 	@Column(length = 20)
 	private String subject; // 거래 대상의 이름 fname
 
 	@Column(length = 100)
 	private String memo;
+
+	public Transaction(Account account, int money, String subject, String memo) {
+		super();
+		this.account = account;
+		this.money = money;
+		this.subject = subject;
+		this.memo = memo;
+	}
+	
+	
 }
