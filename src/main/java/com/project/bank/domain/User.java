@@ -118,4 +118,16 @@ public class User {
 		}
 		return -1;
 	}
+	
+	public boolean hasTransaction(int accountId, int transactionId) {
+		for(Account account : accountList) {
+			if(account.getId() == accountId) {
+				for(Transaction transaction : account.getTransactionList()) {
+					if(transaction.getId() == transactionId)
+						return true;
+				}
+			}
+		}
+		return false;
+	}
 }
