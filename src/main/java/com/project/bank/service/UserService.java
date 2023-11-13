@@ -42,8 +42,8 @@ public class UserService {
 		if(findUser == null)
 			return null;
 		User sendUser = new User(findUser.getId(), findUser.getUsername(), 
-									"비밀번호 변경을 원하실 경우에만 새로 입력하세요!", // frontend에서 "" 허용 관련 수정 후 ""로 바꿀 예정
-									findUser.getFname(), findUser.getRole(), findUser.getIdNo(),
+									"", // frontend에서 "" 허용 관련 수정 후 ""로 바꿈
+									findUser.getFname(), findUser.getRole(), findUser.getIdNo().substring(0, 8),
 									findUser.getEmail(), findUser.getPhone(), findUser.getCountry(),
 									findUser.getAddress(), findUser.getAddressDetail(),
 									findUser.getJobName(), findUser.getTeamName(), findUser.getJobAddress(), 
@@ -62,19 +62,24 @@ public class UserService {
 	@Transactional
 	public boolean update(User user, User loginUser) {
 		Integer id = loginUser.getId();
-		if(id == null || userRepository.existsById(id))
+		if(id == null || !userRepository.existsById(id))
 			return false;
+		User oldUser = userRepository.findById(id).get();
+		if(user.getPassword() != null && !user.getPassword().equals(""))
+			oldUser.setPassword(passwordEncoder.encode(user.getPassword()));
 		
-		user.setId(loginUser.getId());
-		// 고정해야 할 컬럼에 대한 거 고려하면 code 추가 필요함
-		// eg. username 고정 필요할 경우 아래 주석 한줄 추가해야 함! ( → 이미 한줄 주석 해제함 )
-		user.setUsername(loginUser.getUsername());
-		if(user.getPassword() == null || user.getPassword().equals(""))
-			user.setPassword(loginUser.getPassword());
-		else
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
-		user.setRole(loginUser.getRole());
-		return userRepository.save(user) != null;
+		oldUser.setFname(user.getFname());
+		oldUser.setEmail(user.getEmail());
+		oldUser.setPhone(user.getPhone());
+		oldUser.setCountry(user.getCountry());
+		oldUser.setAddress(user.getAddress());
+		oldUser.setAddressDetail(user.getAddressDetail());
+		oldUser.setJobName(user.getJobName());
+		oldUser.setTeamName(user.getTeamName());
+		oldUser.setJobAddress(user.getJobAddress());
+		oldUser.setJobAddressDetail(user.getJobAddressDetail());
+		oldUser.setJobPhone(user.getJobPhone());
+		return userRepository.save(oldUser) != null;
 	}
 	
 	public boolean delete(User user) {
