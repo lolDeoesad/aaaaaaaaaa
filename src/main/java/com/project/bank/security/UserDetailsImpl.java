@@ -1,5 +1,6 @@
 package com.project.bank.security;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -24,7 +25,9 @@ public class UserDetailsImpl implements UserDetails{
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+		Collection<GrantedAuthority> roleList = new ArrayList<>();
+		roleList.add(() -> "ROLE_" + user.getRole());
+		return roleList;
 	}
 
 	@Override
