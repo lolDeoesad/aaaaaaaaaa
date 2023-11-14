@@ -33,7 +33,7 @@ public class TransactionController {
 	@Autowired
 	private ModelMapper modelMapper;
 	
-	@GetMapping("/transfer/{transactionId}")
+	@GetMapping("/transaction/{transactionId}")
 	public ResponseEntity<?> get(Authentication authentication, @PathVariable int transactionId) {
 		User loginUser = userService.getAuth(authentication.getName());
 		
@@ -44,7 +44,7 @@ public class TransactionController {
 		return new ResponseEntity<>(transaction, HttpStatus.OK);
 	}
 
-	@PostMapping("/transfer/{accountFromId}")
+	@PostMapping("/transaction/{accountFromId}")
 	public ResponseEntity<?> insert(Authentication authentication, @PathVariable int accountFromId, @Valid @RequestBody TransactionDTO transactionDTO, BindingResult bindingResult) {
 		User loginUser = userService.getAuth(authentication.getName());
 		
@@ -54,7 +54,7 @@ public class TransactionController {
 //		return new ResponseEntity<>("계좌이체 완료", HttpStatus.OK);
 	}
 	
-	@PutMapping("/transfer/{transactionId}")
+	@PutMapping("/transaction/{transactionId}")
 	public ResponseEntity<?> update(Authentication authentication, @PathVariable int transactionId, @Valid @RequestBody TransactionDTO transactionDTO, BindingResult bindingResult) {
 		User loginUser = userService.getAuth(authentication.getName());
 		
